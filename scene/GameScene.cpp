@@ -26,23 +26,31 @@ void GameScene::Initialize() {
 	// 3Dモデルの生成
 	model_ = Model::Create();
 
+	// x,y,zのスケーリング設定
+	worldTransform_.scale_ = {5.0f, 5.0f, 5.0f};
+
+	// x,y,zの軸周りの回転角を設定
+	worldTransform_.rotation_ = {XM_PI / 4.0f, XM_PI / 4.0f, 0.0f};
+
+	// x,y,z軸周りの平行移動を設定
+	worldTransform_.translation_ = {10.0f, 10.0f, 10.0f};
+
 	//ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();
 
-	//サウンドデータの読み込み
-	soundDataHandle_ = audio_->LoadWave("1-2/se_sad03.wav");
+	////サウンドデータの読み込み
+	// soundDataHandle_ = audio_->LoadWave("1-2/se_sad03.wav");
 
-	//音声再生
-	voiceHandle_ = audio_->PlayWave(soundDataHandle_, true);
+	////音声再生
+	// voiceHandle_ = audio_->PlayWave(soundDataHandle_, true);
 
-	//スペースキーを押した瞬間
-	if (input_->TriggerKey(DIK_SPACE)) {
-		//音声停止
-		audio_->StopWave(voiceHandle_);
-	}
-
+	////スペースキーを押した瞬間
+	// if (input_->TriggerKey(DIK_SPACE)) {
+	//	//音声停止
+	//	audio_->StopWave(voiceHandle_);
+	// }
 }
 
 void GameScene::Update() {
@@ -57,15 +65,26 @@ void GameScene::Update() {
 	sprite_->SetPosition(position);
 
 	//デバックテキストの表示
-	//debugText_->Print("Kaizokuou ni oreha naru.", 50, 50, 1.0f);
+	// debugText_->Print("Kaizokuou ni oreha naru.", 50, 50, 1.0f);
 
 	//インクリメント
 	value_++;
 	//値を含んだ文字列
-	std::string strDebug = std::string("Value:") +
-		std::to_string(value_);
+	std::string strDebug = std::string("translation:(") +
+	                       std::to_string(worldTransform_.translation_.x) + std::string(",") +
+	                       std::to_string(worldTransform_.translation_.y) + std::string(",") +
+	                       std::to_string(worldTransform_.translation_.z) + std::string(")");
+	;
 	//デバックテキスト表示
 	debugText_->Print(strDebug, 50, 50, 1.0f);
+	debugText_->SetPos(50, 65);
+	debugText_->Printf(
+	  "rotation(%f,%f,%f)", worldTransform_.rotation_.x, worldTransform_.rotation_.y,
+	  worldTransform_.rotation_.z);
+	debugText_->SetPos(50, 80);
+	debugText_->Printf(
+	  "rotation(%f,%f,%f)", worldTransform_.scale_.x, worldTransform_.scale_.y,
+	  worldTransform_.scale_.z);
 }
 
 void GameScene::Draw() {
@@ -109,7 +128,7 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
-	sprite_->Draw();
+	// sprite_->Draw();
 
 	// デバッグテキストの描画
 	debugText_->DrawAll(commandList);
