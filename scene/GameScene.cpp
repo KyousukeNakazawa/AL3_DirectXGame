@@ -118,16 +118,16 @@ void GameScene::Update() {
 		}
 
 		//注視点移動
-		/*worldTransform_[PartId::Root].translation_.x += move.x;
+		worldTransform_[PartId::Root].translation_.x += move.x;
 		worldTransform_[PartId::Root].translation_.y += move.y;
-		worldTransform_[PartId::Root].translation_.z += move.z;*/
+		worldTransform_[PartId::Root].translation_.z += move.z;
 
 		//デバック用表示
 		debugText_->SetPos(50, 150);
-		/*debugText_->Printf(
-			"Root:(%f, %f, %f)", worldTransform_[PartId::Root].translation_.x += move.x,
-			worldTransform_[PartId::Root].translation_.y += move.y,
-			worldTransform_[PartId::Root].translation_.z += move.z);*/
+		debugText_->Printf(
+			"Root:(%f, %f, %f)", worldTransform_[PartId::Root].translation_.x,
+			worldTransform_[PartId::Root].translation_.y,
+			worldTransform_[PartId::Root].translation_.z);
 	}
 }
 
