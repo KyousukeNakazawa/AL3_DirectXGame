@@ -51,7 +51,8 @@ void GameScene::Initialize() {
 	}
 
 	//キャラクターの大元
-	worldTransform_[PartId::Root].translation_ = {0, 0.0f, 0};
+	worldTransform_[PartId::Root].translation_ = {0, 0, 0};
+	worldTransform_[PartId::Root].rotation_ = {0, 0.5f, 0};
 	worldTransform_[PartId::Root].Initialize();
 
 	//脊椎
@@ -188,6 +189,30 @@ void GameScene::Update() {
 		}
 	}
 
+	//身体回転処理
+	{
+		const float kRootRotSpeed = 0.05f;
+
+		//押した方向で移動ベクトルを変更
+		if (input_->PushKey(DIK_A)) {
+			worldTransform_[PartId::Root].rotation_.y -= kRootRotSpeed;
+		}
+		else if (input_->PushKey(DIK_D)) {
+			worldTransform_[PartId::Root].rotation_.y += kRootRotSpeed;
+		}
+	}
+
+	//腕足回転処理
+	{
+		const float kRotSpeed = 0.1f;
+
+		//左腕右足
+		worldTransform_[PartId::ArmL].rotation_.x += kRotSpeed;
+		worldTransform_[PartId::LegR].rotation_.x += kRotSpeed;
+
+		worldTransform_[PartId::ArmR].rotation_.x -= kRotSpeed;
+		worldTransform_[PartId::LegL].rotation_.x -= kRotSpeed;
+	}
 }
 
 void GameScene::Draw() {
