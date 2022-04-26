@@ -39,24 +39,25 @@ void GameScene::Initialize() {
 
 	for (int i = 0; i < _countof(worldTransform_); i++) {
 		for (int j = 0; j < 9; j++) {
-			// x,y,zのスケーリング設定
-			worldTransform_[i][j].scale_ = {1.0f, 1.0f, 1.0f};
+			for (int k = 0; k < 9; k++) {
+				// x,y,zのスケーリング設定
+				worldTransform_[i][j][k].scale_ = { 1.0f, 1.0f, 1.0f };
 
-			//[奇数][奇数]削除
-			if (i % 2 == 1 && j % 2 == 1) {
-				worldTransform_[i][j].scale_ = { 0, 0, 0 };
+				//[奇数][奇数]削除
+				/*if (i % 2 == 1 && j % 2 == 1) {
+					worldTransform_[i][j][k].scale_ = { 0, 0, 0 };
+				}*/
+
+				// x,y,zの軸周りの回転角を設定
+				worldTransform_[i][j][k].rotation_ = { 0, 0, 0 };
+
+				// x,y,z軸周りの平行移動を設定
+				worldTransform_[i][j][k].translation_ = { -12 + (float)i * 3, -12 + (float)j * 3, (float)k * 3 };
+
+				//ワールドトランスフォームの初期化
+				worldTransform_[i][j][k].Initialize();
+
 			}
-
-			// x,y,zの軸周りの回転角を設定
-			worldTransform_[i][j].rotation_ = {0, 0, 0};
-
-			// x,y,z軸周りの平行移動を設定
-			worldTransform_[i][j].translation_ = {-15 + (float)i * 4, -15 + (float)j * 4, 0};
-
-			//ワールドトランスフォームの初期化
-			worldTransform_[i][j].Initialize();
-
-			
 		}
 	}
 
@@ -133,7 +134,9 @@ void GameScene::Draw() {
 	/// //3Dモデル描画
 	for (int i = 0; i < _countof(worldTransform_); i++) {
 		for (int j = 0; j < 9; j++) {
-			model_->Draw(worldTransform_[i][j], viewProjection_, textureHandle_);
+			for (int k = 0; k < 9; k++) {
+				model_->Draw(worldTransform_[i][j][k], viewProjection_, textureHandle_);
+			}
 		}
 	}
 
